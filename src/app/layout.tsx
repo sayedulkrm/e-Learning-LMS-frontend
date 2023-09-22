@@ -2,6 +2,9 @@ import { ThemeProvider } from "@/provider/theme-provider";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Josefin_Sans, Poppins } from "next/font/google";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ReduxProvider } from "@/provider/redux-provider";
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -31,13 +34,16 @@ export default function RootLayout({
             <body
                 className={`${poppins.variable} ${josefin.variable} bg-no-repeat bg-gradient-to-r from-violet-200 to-pink-200 dark:bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] dark:from-gray-700 dark:via-gray-900 duration-300 dark:to-black  text-black dark:text-white`}
             >
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                >
-                    {children}
-                </ThemeProvider>
+                <ReduxProvider>
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                    >
+                        {children}
+                        <ToastContainer />
+                    </ThemeProvider>
+                </ReduxProvider>
             </body>
         </html>
     );
