@@ -1,6 +1,7 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 import {
     AiOutlineEye,
@@ -8,8 +9,10 @@ import {
     AiFillGithub,
 } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-import { style } from "@/styles/style";
+import { style } from "../../styles/style";
 import Link from "next/link";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { signIn } from "next-auth/react";
 
 type Props = {
     routes: string;
@@ -26,16 +29,33 @@ const schema = Yup.object().shape({
         .required("Please enter your password"),
 });
 
-const Login: FC<Props> = ({ setRoute }) => {
+const Login: FC<Props> = ({ setRoute, setOpen }) => {
     const [showPassword, setShowPassword] = useState(false);
+
+    const [login, { isLoading, isError, data, error, isSuccess }] =
+        useLoginMutation();
 
     const formik = useFormik({
         initialValues: { email: "", password: "" },
         validationSchema: schema,
         onSubmit: async ({ email, password }) => {
-            console.log(email, password);
+            await login({ email, password });
         },
     });
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("Login Successfully");
+            setOpen(false);
+        }
+
+        if (error) {
+            if ("data" in error) {
+                const errorData = error as any;
+                toast.error(errorData.data.message);
+            }
+        }
+    }, [isSuccess, error]);
 
     const { errors, touched, values, handleSubmit, handleChange } = formik;
 
@@ -110,16 +130,22 @@ const Login: FC<Props> = ({ setRoute }) => {
 
                     <p className="text-center my-5">or join with</p>
                     <div className="flex justify-center ">
-                        <a href="/auth/google" className=" mx-2">
-                            <FcGoogle className="inline-block text-3xl" />
-                        </a>
-                        <a href="/auth/github" className=" mx-2">
-                            <AiFillGithub className="inline-block text-3xl" />
-                        </a>
+                        <p className=" mx-2 cursor-pointer">
+                            <FcGoogle
+                                className="inline-block text-3xl"
+                                onClick={() => signIn("google")}
+                            />
+                        </p>
+                        <p className=" mx-2 cursor-pointer">
+                            <AiFillGithub
+                                className="inline-block text-3xl"
+                                onClick={() => signIn("github")}
+                            />
+                        </p>
                     </div>
 
                     <p className=" text-center mt-5">
-                        Don't have an account?{" "}
+                        Dont have an account?{" "}
                         <span
                             className="text-blue-500 cursor-pointer"
                             onClick={() => setRoute("Register")}

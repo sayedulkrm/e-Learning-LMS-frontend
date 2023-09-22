@@ -2,6 +2,7 @@
 import React, { FC, useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { signIn } from "next-auth/react";
 
 import {
     AiOutlineEye,
@@ -9,7 +10,7 @@ import {
     AiFillGithub,
 } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-import { style } from "@/styles/style";
+import { style } from "../../styles/style";
 import Link from "next/link";
 import { useRegisterMutation } from "@/redux/features/auth/authApi";
 import { toast } from "react-toastify";
@@ -161,12 +162,18 @@ const Register: FC<Props> = ({ setRoute }) => {
 
                     <p className="text-center my-5">or join with</p>
                     <div className="flex justify-center ">
-                        <a href="/auth/google" className=" mx-2">
-                            <FcGoogle className="inline-block text-3xl" />
-                        </a>
-                        <a href="/auth/github" className=" mx-2">
-                            <AiFillGithub className="inline-block text-3xl" />
-                        </a>
+                        <p className=" cursor-pointer mx-2">
+                            <FcGoogle
+                                className="inline-block text-3xl"
+                                onClick={() => signIn("google")}
+                            />
+                        </p>
+                        <p className=" cursor-pointer mx-2">
+                            <AiFillGithub
+                                className="inline-block text-3xl"
+                                onClick={() => signIn("github")}
+                            />
+                        </p>
                     </div>
 
                     <p className=" text-center mt-5">

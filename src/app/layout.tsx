@@ -18,11 +18,11 @@ const josefin = Josefin_Sans({
     variable: "--font-Josefin",
 });
 
-export const metadata: Metadata = {
-    title: "EduMastery",
-    description:
-        "EduMastery: Your Path to Knowledge Excellence. Explore a world of online learning with our expertly curated courses in diverse fields. Master new skills and unlock your potential today!",
-};
+// export const metadata: Metadata = {
+//     title: "EduMastery",
+//     description:
+//         "EduMastery: Your Path to Knowledge Excellence. Explore a world of online learning with our expertly curated courses in diverse fields. Master new skills and unlock your potential today!",
+// };
 
 export default function RootLayout({
     children,

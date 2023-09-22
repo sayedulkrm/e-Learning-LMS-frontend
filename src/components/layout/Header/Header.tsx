@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import NavItems from "./NavItems";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
@@ -9,6 +9,12 @@ import CustomModal from "../../utils/Modal/CustomModal";
 import Login from "@/components/Auth/Login";
 import Register from "@/components/Auth/Register";
 import Verification from "@/components/Auth/Verification";
+import { useSelector } from "react-redux";
+import Image from "next/image";
+import avatar from "../../../../public/assets/rabbit.png";
+import { useSession } from "next-auth/react";
+import { useSocialAuthMutation } from "@/redux/features/auth/authApi";
+import { toast } from "react-toastify";
 
 type Props = {
     open: boolean;
@@ -27,6 +33,28 @@ const Header: FC<Props> = ({
 }: Props) => {
     const [active, setActive] = useState(false);
     const [openSidebar, setOpenSidebar] = useState(false);
+
+    const { user } = useSelector((state: any) => state.auth);
+
+    const { data } = useSession();
+
+    const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
+
+    useEffect(() => {
+        if (!user) {
+            if (data) {
+                socialAuth({
+                    email: data?.user?.email,
+                    name: data?.user?.name,
+                    avatar: data?.user?.image,
+                });
+            }
+        }
+
+        if (isSuccess) {
+            toast.success("Login successfull");
+        }
+    }, [user, socialAuth, data, isSuccess]);
 
     const handleClose = (e: any) => {
         if (e.target.id === "screen") {
@@ -73,10 +101,21 @@ const Header: FC<Props> = ({
                             />
                             <ThemeSwitcher />
 
-                            <HiOutlineUserCircle
-                                className="cursor-pointer text-2xl "
-                                onClick={() => setOpen(true)}
-                            />
+                            {user ? (
+                                <Link href={"/profile"}>
+                                    <Image
+                                        src={user.avatar ? user.avatar : avatar}
+                                        alt={user.name ? user.name : "user"}
+                                        height={30}
+                                        width={30}
+                                    />
+                                </Link>
+                            ) : (
+                                <HiOutlineUserCircle
+                                    className="cursor-pointer text-2xl "
+                                    onClick={() => setOpen(true)}
+                                />
+                            )}
 
                             {/* For Mobile */}
                             <div className="800px:hidden">
