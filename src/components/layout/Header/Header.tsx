@@ -13,7 +13,10 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import avatar from "../../../../public/assets/rabbit.png";
 import { useSession } from "next-auth/react";
-import { useSocialAuthMutation } from "@/redux/features/auth/authApi";
+import {
+    useLogoutQuery,
+    useSocialAuthMutation,
+} from "@/redux/features/auth/authApi";
 import { toast } from "react-toastify";
 
 type Props = {
@@ -40,6 +43,12 @@ const Header: FC<Props> = ({
 
     const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
 
+    const [logout, setLogout] = useState(false);
+
+    const {} = useLogoutQuery(undefined, {
+        skip: !logout ? true : false,
+    });
+
     useEffect(() => {
         if (!user) {
             if (data) {
@@ -51,8 +60,14 @@ const Header: FC<Props> = ({
             }
         }
 
-        if (isSuccess) {
-            toast.success("Login successfull");
+        if (data === null) {
+            if (isSuccess) {
+                toast.success("Login successfull");
+            }
+        }
+
+        if (data === null) {
+            setLogout(true);
         }
     }, [user, socialAuth, data, isSuccess]);
 
@@ -104,10 +119,19 @@ const Header: FC<Props> = ({
                             {user ? (
                                 <Link href={"/profile"}>
                                     <Image
-                                        src={user.avatar ? user.avatar : avatar}
+                                        src={
+                                            user.avatar
+                                                ? user.avatar.url
+                                                : avatar
+                                        }
                                         alt={user.name ? user.name : "user"}
                                         height={30}
                                         width={30}
+                                        className={`rounded-full h-10 w-10 object-cover ${
+                                            activeItem === 5
+                                                ? "border-2 border-[crimson] dark:border-cyan-500"
+                                                : ""
+                                        }`}
                                     />
                                 </Link>
                             ) : (

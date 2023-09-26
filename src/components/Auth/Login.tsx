@@ -13,6 +13,7 @@ import { style } from "../../styles/style";
 import Link from "next/link";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { signIn } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 type Props = {
     routes: string;
