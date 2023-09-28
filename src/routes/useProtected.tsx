@@ -20,13 +20,20 @@ export default function ProtectedRoute({
 
     const { isLoading } = useLoadUserQuery(undefined, undefined);
 
-    if (isLoading) return <Loader />;
+    if (isLoading) {
+        return <Loader />;
+    }
 
     const isAuthenticated = user;
+
+    if (!isAuthenticated) {
+        // User is not authenticated, redirect
+        return redirect(sendTo ?? "/");
+    }
 
     const isAdmin = user?.role === "admin";
 
     if (adminRoute && !isAdmin) return redirect(sendTo ?? "/");
 
-    return isAuthenticated ? children : redirect(sendTo ?? "/");
+    return children;
 }

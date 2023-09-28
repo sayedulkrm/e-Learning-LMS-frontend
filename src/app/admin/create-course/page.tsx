@@ -1,23 +1,18 @@
 "use client";
+
 import AdminHeader from "@/components/Admin/AdminHeader/AdminHeader";
 import AdminSidebar from "@/components/Admin/AdminSidebar/AdminSidebar";
-import DashboardHero from "@/components/Admin/Dashboard/DashboardHero/DashboardHero";
+import CreateCourse from "@/components/Admin/CreateCourse/CreateCourse";
 import ProtectedRoute from "@/routes/useProtected";
 import Heading from "@/utils/Heading";
 import React from "react";
 
 type Props = {};
 
-const Dashboard = (props: Props) => {
+const page = (props: Props) => {
     return (
         <div>
             <ProtectedRoute sendTo="/profile" adminRoute={true}>
-                <Heading
-                    title="EduMastery | Admin Panel"
-                    description="A administration panel"
-                    keywords="programming, education, programming education,react,nextjs,next"
-                />
-
                 <div className="flex h-full min-h-screen">
                     {/* <div className="1500px:w-[16%] md:w-1/5 w-full  h-screen p-5"> */}
                     <AdminSidebar />
@@ -25,7 +20,7 @@ const Dashboard = (props: Props) => {
 
                     <div className=" w-full  h-full">
                         <AdminHeader />
-                        <DashboardHero />
+                        <CreateCourse />
                     </div>
                 </div>
             </ProtectedRoute>
@@ -33,4 +28,4 @@ const Dashboard = (props: Props) => {
     );
 };
 
-export default Dashboard;
+export default page;

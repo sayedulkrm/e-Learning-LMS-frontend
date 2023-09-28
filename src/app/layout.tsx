@@ -32,7 +32,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`${poppins.variable} ${josefin.variable} bg-no-repeat bg-gradient-to-r from-violet-200 to-pink-200 dark:bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] dark:from-gray-700 dark:via-gray-900 duration-300 dark:to-black  text-black dark:text-white`}
+                className={`${poppins.variable} ${josefin.variable} bg-gradient-to-r from-violet-200 to-pink-200 dark:bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] dark:from-gray-700 dark:via-gray-900 duration-300 dark:to-black  text-black dark:text-white`}
             >
                 <ReduxProvider>
                     <ThemeProvider
