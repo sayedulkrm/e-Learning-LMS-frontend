@@ -46,6 +46,7 @@ const AdminSidebar = (props: Props) => {
                 style={{
                     height: "100vh",
                     minHeight: "100vh",
+
                     overflowY: "auto",
                     scrollBehavior: "smooth",
                 }}

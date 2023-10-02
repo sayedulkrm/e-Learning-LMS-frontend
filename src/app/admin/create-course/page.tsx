@@ -18,7 +18,7 @@ const page = (props: Props) => {
                     <AdminSidebar />
                     {/* </div> */}
 
-                    <div className=" w-full  h-full">
+                    <div className=" w-full  h-screen overflow-y-auto">
                         <AdminHeader />
                         <CreateCourse />
                     </div>
