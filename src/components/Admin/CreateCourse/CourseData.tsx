@@ -3,6 +3,7 @@
 import React, { FC } from "react";
 
 import { RiAddCircleFill } from "react-icons/ri";
+import { toast } from "react-toastify";
 
 type Props = {
     active: number;
@@ -40,6 +41,17 @@ const CourseData: FC<Props> = ({
 
     const handleAddPrerequisites = () => {
         setPreRequisites([...preRequisites, { title: "" }]);
+    };
+
+    const handleOptions = () => {
+        if (
+            benifits[benifits.length - 1]?.title !== "" &&
+            preRequisites[preRequisites.length - 1]?.title !== ""
+        ) {
+            setActive(active + 1);
+        } else {
+            toast.error("Please fill all the fields");
+        }
     };
 
     return (
@@ -115,14 +127,14 @@ const CourseData: FC<Props> = ({
                 <button
                     className="py-1 px-3 text-xl text-white rounded-md shadow-lg bg-cyan-500 hover:bg-cyan-700 duration-200"
                     onClick={() => setActive(active - 1)}
-                    disabled={active === 1}
+                    disabled={active === 0}
                 >
                     Prev
                 </button>
 
                 <button
                     className="py-1 px-3 text-xl text-white rounded-md shadow-lg bg-cyan-500 hover:bg-cyan-700 duration-200"
-                    onClick={() => setActive(active + 1)}
+                    onClick={() => handleOptions()}
                     disabled={active === 3}
                 >
                     Next

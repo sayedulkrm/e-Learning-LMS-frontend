@@ -7,4 +7,5 @@ export const style = {
     flex: "flex flex-col md:flex-row items-center",
     image: "w-full md:w-1/2 rounded-md shadow-lg",
     content: "w-full md:w-1/2 md:ml-4",
+    input: "w-full px-3 py-2 rounded-md border border-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 bg-transparent my-4",
 };
