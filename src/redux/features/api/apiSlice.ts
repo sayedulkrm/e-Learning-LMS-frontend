@@ -24,7 +24,6 @@ export const apiSlice = createApi({
             async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
                     const result = await queryFulfilled;
-                    console.log("Here comes:----------" + result);
                     dispatch(
                         userLogin({
                             token: result.data.accessToken,
